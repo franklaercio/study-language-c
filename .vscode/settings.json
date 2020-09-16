@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "string": "c",
+        "hash_map": "c",
+        "algorithm": "c"
+    }
+}
