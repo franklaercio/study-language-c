@@ -1,5 +1,5 @@
 <h2 align="center"> 
-  :books: Shop App
+  :books: Study Language C
 </h1>
 
 <p align="center">
@@ -7,17 +7,17 @@
     <img alt="Made by franklaercio" src="https://img.shields.io/badge/Linkedin-Made%20by%20franklaercio-blue">
   </a>
   
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/franklaercio/shop_app_flutter?color=%2304D361">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/franklaercio/study-language-c?color=%2304D361">
   
-  <a href="https://github.com/franklaercio/shop_app_flutter/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/franklaercio/shop_app_flutter">
+  <a href="https://github.com/franklaercio/study-language-c/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/franklaercio/study-language-c">
   </a>
   
-  <img alt="Code size" src="https://img.shields.io/github/languages/code-size/franklaercio/shop_app_flutter">
+  <img alt="Code size" src="https://img.shields.io/github/languages/code-size/franklaercio/study-language-c">
 
   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
-   <a href="https://github.com/franklaercio/shop_app_flutter/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/franklaercio/shop_app_flutter?style=social">
+   <a href="https://github.com/franklaercio/study-language-c/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/franklaercio/study-language-c?style=social">
   </a>
 </p>
 
@@ -48,6 +48,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## :newspaper: Acknowledgments
 
-- React
-- React Native
-- Node.js
+- C
+- Microsoft
