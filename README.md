@@ -1,5 +1,5 @@
 <h2 align="center"> 
-  :books: Study Language C
+  :desktop_computer: Study Language C
 </h1>
 
 <p align="center">
