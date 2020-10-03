@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 int main() {
     char primeiroTexto[40] = "";
@@ -24,10 +23,7 @@ int main() {
             contadorSegundoCaracter += 2;
         }else{
             stringConcatenada[contadorSegundoCaracter - 1] = segundoTexto[i];
-            printf("%s %c\n", "aqui", caracterTexto2);
         }
-
-        printf("%d\n", contadorSegundoCaracter);
     }
 
     printf("%s", stringConcatenada);
