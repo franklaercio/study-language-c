@@ -10,7 +10,7 @@ int main() {
     fgets(palavra, 40, stdin);
 
     for (int i = 0; i < strlen(palavra); i++){
-        if(palavra[i] != ' ') {
+        if(palavra[i] != ' ' && (toupper(palavra[i]) >= 'A' &&  toupper(palavra[i]) <= 'Z')) {
             if(palavra[i] == toupper(palavra[i])){
                 contadorMaiuscula++;
             }
@@ -21,7 +21,7 @@ int main() {
         }
     }
 
-    printf("%d %d", contadorMaiuscula -1, contadorMinuscula -1);
+    printf("%d %d", contadorMaiuscula, contadorMinuscula);
     
 
     return 0;
