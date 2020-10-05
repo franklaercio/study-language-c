@@ -3,9 +3,9 @@
 float calculaMedia(char tipoMedia, float nota1, float nota2, float nota3){
     float resultado;
 
-    if(tipoMedia == "A"){
+    if(tipoMedia == 'A'){
         resultado = ((nota1*4) + (nota2*5) + (nota3*6))/15;
-    }else if(tipoMedia == "N"){
+    }else if(tipoMedia == 'N'){
         resultado = ((nota1) + (nota2) + (nota3))/3;
     }
 
