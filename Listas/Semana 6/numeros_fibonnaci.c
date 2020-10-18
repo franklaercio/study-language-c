@@ -11,18 +11,22 @@ int fibonnaci(int n){
 int main(){
     int primeiroIntervalo;
     int segundoIntervalo;
+    int numeroFibonnaci = 0;
     int contador = 0;
+    int sequencia = 0;
 
     scanf("%i", &primeiroIntervalo);
     scanf("%i", &segundoIntervalo);
 
-    for (int i = 0; i < segundoIntervalo; i++) {
-        int numeroFibonnaci = fibonnaci(i);
-
-        if(numeroFibonnaci > primeiroIntervalo && numeroFibonnaci < segundoIntervalo){
+    do{
+      numeroFibonnaci = fibonnaci(sequencia);
+      
+      if(numeroFibonnaci > primeiroIntervalo && numeroFibonnaci < segundoIntervalo){
             contador++;
-        }
-    }    
+      }
+
+      sequencia++;
+    }while(sequencia != 20);  
 
     printf("Existem %i números de fibonacci entre %i e %i", contador, primeiroIntervalo, segundoIntervalo);
 
