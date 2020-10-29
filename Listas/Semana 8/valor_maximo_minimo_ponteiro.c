@@ -41,7 +41,9 @@ int main() {
 
     lerMatriz(tamanho, tamanho, matriz);
 
-    valorMaximoMinimoMatriz(tamanho, matriz, maximo, i_maximo, j_maximo, minimo, i_minimo, j_minimo);
+    valorMaximoMinimoMatriz(tamanho, matriz, &maximo, &i_maximo, &j_maximo, &minimo, &i_minimo, &j_minimo);
+
+    printf("%i %i %i %i %i %i", maximo, i_maximo, j_maximo, minimo, i_minimo, j_minimo);
 
     return 0;
 }
