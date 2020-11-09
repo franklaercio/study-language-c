@@ -29,7 +29,7 @@ bd_pessoas inserir_pessoa (bd_pessoas pessoas, pessoa p) {
 
     for(int i = 0; i < 20; i++) {
         if(pessoas.pessoas[i].id == p.id) {
-            printf("Identificador %i duplicado!", p.id);
+            printf("Identificador %i duplicado!\n", p.id);
             isIdentificadorDuplicado = true;
             break;
         }
@@ -48,7 +48,7 @@ bd_irmaos inserir_irmão(bd_pessoas pessoas, bd_irmaos irmaos, int id1, int id2)
     
     for(int i = 0; i < 50; i++) {
         if((irmaos.irmaos[i].id1 == id1 && irmaos.irmaos[i].id2 == id2) || (irmaos.irmaos[i].id1 == id2 && irmaos.irmaos[i].id2 == id1)) {
-            printf("Parentesco %i %i já cadastrado!", id1, id2);
+            printf("Parentesco %i %i já cadastrado!\n", id1, id2);
             isParentescoCadastrado = true;
             break;
         }
@@ -70,66 +70,63 @@ void imprimir_irmãos(bd_irmaos irmaos, bd_pessoas pessoas, int id) {
     bool isPossuiIrmaos = false;
     
     for(int i = 0; i < 50; i++) {
-        if((irmaos.irmaos[i].id1 = id) || (irmaos.irmaos[i].id2 == id)) {
+        if((irmaos.irmaos[i].id1 == id) || (irmaos.irmaos[i].id2 == id)) {
             isPossuiIrmaos = true;
             
             if(irmaos.irmaos[i].id1 != id) {
-                printf("%s é irmão de %s", pessoas.pessoas[irmaos.irmaos[i].id1].nome, pessoas.pessoas[id].nome);
+                printf("%s é irmão de %s\n", pessoas.pessoas[irmaos.irmaos[i].id1].nome, pessoas.pessoas[id].nome);
             }
             
             if(irmaos.irmaos[i].id2 != id) {
-                printf("%s é irmão de %s", pessoas.pessoas[irmaos.irmaos[i].id2].nome, pessoas.pessoas[id].nome);
+                printf("%s é irmão de %s\n", pessoas.pessoas[irmaos.irmaos[i].id2].nome, pessoas.pessoas[id].nome);
             }
         }
     }
     
     if(!isPossuiIrmaos) {
-        printf("%s não tem irmãos cadastrados", pessoas.pessoas[id].nome);
+        printf("%s não tem irmãos cadastrados\n", pessoas.pessoas[id].nome);
     }
 }
 
 int main() {
-    char operacao = ' ';
-    char dados[256] = "";
-    int id1, id2;
+    char operacao;
+    char dados[256];
+    int id1, id2, id;
     bd_pessoas pessoas;
     pessoa p;
     irmao i;
     bd_irmaos irmaos;
 
+    pessoas.num_pessoas = 1;
+    irmaos.num_relacoes = 1;
+
     for(int i = 0; i < 20; i++) {
-      pessoas.pessoas[i].id = 0;
+      pessoas.pessoas[i].id = -1;
     }
 
     for(int i = 0; i < 50; i++) {
-      irmaos.irmaos[i].id1 = 0;
-      irmaos.irmaos[i].id2 = 0;
+      irmaos.irmaos[i].id1 = -1;
+      irmaos.irmaos[i].id2 = -1;
     }
     
     while(operacao != SAIR){
         char nome[21];
         int id;
-        scanf("%c[^\n]", &operacao);
+        scanf("%c", &operacao);
         
-        switch(operacao){
-            case INSERIR:
-                fgets(dados, 256, stdin);
-                dados[strcspn(dados, "\n")] = 0;
-                sscanf(dados, "%[^,],%d", nome, &id);
-                pessoa pessoa = {.id = id};
-                strcpy(pessoa.nome, nome);
+        if(operacao == INSERIR) {
+            scanf("%[^,], %i", nome, &id);
+            pessoa pessoa = {.id = id};
+            strcpy(pessoa.nome, nome);
 
-                printf("%s\n", nome);
-                printf("%i\n", id);
-
-                pessoas = inserir_pessoa(pessoas, pessoa);
-                break;
-            case PARENTESCO:
-                scanf("%i %i", &id1, &id2);
-                irmaos = inserir_irmão(pessoas, irmaos, id1, id2);
-                break;
-            default:
-                break;
+            pessoas = inserir_pessoa(pessoas, pessoa);
+        }else if(operacao == PARENTESCO) {
+            scanf("%i %i", &id1, &id2);
+            irmaos = inserir_irmão(pessoas, irmaos, id1, id2);
+        }else if(operacao == SAIR) {
+            scanf("%i", &id);
+            imprimir_irmãos(irmaos, pessoas, id);
+            break;
         }
     }
     
