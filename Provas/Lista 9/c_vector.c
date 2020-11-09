@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include <stdbool.h>
+
+enum operacoes {INSERIR = 'i', REMOVER = 'r', EXIST = 'e', SAIR = 'x'};
+enum alias {ULTIMA_POSICAO = 39, PENULTIMA_POSICAO = 38, NUMERO_INEXISTENTE = -2147483647};
 
 typedef struct {
     int num;
@@ -10,24 +12,75 @@ typedef struct {
     Elemento vetor[40];
 } C_vector;
 
+C_vector insert_at(Elemento elemento, int posicao, C_vector c_vector);
+
+C_vector remove_from(int posicao, C_vector c_vector);
+
+void exist(Elemento elemento, C_vector c_vector);
+
+void imprimirVetor(C_vector c_vector);
+
+int main() {
+    char op;
+    int numero;
+    int posicao;
+    C_vector c_vector;
+
+    for(int i = 0; i < 40; i++) {
+      Elemento e;
+      e.num = NUMERO_INEXISTENTE;
+      c_vector.vetor[i] = e;
+    }
+    
+    while(op != SAIR) {  
+      scanf("%c", &op);
+
+      switch(op){
+        case INSERIR:
+          scanf("%i %i", &numero, &posicao);
+          Elemento elementoInserido = {.num = numero};
+          c_vector = insert_at(elementoInserido, posicao, c_vector);
+          break;
+        case REMOVER:
+          scanf("%i", &posicao);
+          c_vector = remove_from(posicao, c_vector);
+          break;
+        case EXIST:
+          scanf("%i", &numero);
+          Elemento elementoExiste = {.num = numero};
+          exist(elementoExiste, c_vector);
+          break;
+        case SAIR:
+          imprimirVetor(c_vector);
+          break;
+        default:
+          break;
+      }
+    }
+    
+    return 0;
+}
+
 C_vector insert_at(Elemento elemento, int posicao, C_vector c_vector) {
-    if(posicao >= 39) {
-      posicao = 39;
-      c_vector.vetor[38] = c_vector.vetor[39];
+    if(posicao >= ULTIMA_POSICAO) {
+      posicao = ULTIMA_POSICAO;
+      c_vector.vetor[PENULTIMA_POSICAO] = c_vector.vetor[ULTIMA_POSICAO];
     }
 
-    if (c_vector.vetor[posicao].num >= 0) {
-      int deslocamento = posicao;
-      int numeroDeslocado, numeroPosterior;
-      numeroDeslocado = c_vector.vetor[posicao].num;
+    if (c_vector.vetor[posicao].num != NUMERO_INEXISTENTE) {
+      int index = posicao;
+      int valorDeslocado;
+      int valorPosterior;
+
+      valorDeslocado = c_vector.vetor[posicao].num;
       c_vector.vetor[posicao] = elemento;
 
-      for(int i = 0; i < 40; i++) {
+      for(int i = 0; i <= ULTIMA_POSICAO; i++) {
         if (i > posicao) {
-          numeroPosterior = c_vector.vetor[deslocamento + 1].num;
-          c_vector.vetor[deslocamento + 1].num = numeroDeslocado;
-          numeroDeslocado = numeroPosterior;
-          deslocamento++;
+          valorPosterior = c_vector.vetor[index + 1].num;
+          c_vector.vetor[index + 1].num = valorDeslocado;
+          valorDeslocado = valorPosterior;
+          index++;
         }
       }
     }else{
@@ -40,13 +93,13 @@ C_vector insert_at(Elemento elemento, int posicao, C_vector c_vector) {
 }
 
 C_vector remove_from(int posicao, C_vector c_vector) {
-    for(int i = 0; i < 40; i++) {
+    for(int i = 0; i <= ULTIMA_POSICAO; i++) {
         if(i > posicao) {
           c_vector.vetor[i - 1].num = c_vector.vetor[i].num;
         }
 
-        if(i == 39) {
-          c_vector.vetor[39].num = -66;
+        if(i == ULTIMA_POSICAO) {
+          c_vector.vetor[ULTIMA_POSICAO].num = NUMERO_INEXISTENTE;
         }
     }
 
@@ -56,62 +109,33 @@ C_vector remove_from(int posicao, C_vector c_vector) {
 }
 
 void exist(Elemento elemento, C_vector c_vector) {
-    bool isInsertedNumber = false;
+    int exiteNumero = 0;
     
-    for(int i = 0; i < 40; i++) {
+    for(int i = 0; i <= ULTIMA_POSICAO; i++) {
       if(c_vector.vetor[i].num == elemento.num) {
-        isInsertedNumber = true;
+        exiteNumero = 1;
+        break;
       }
     }
 
-    printf(isInsertedNumber ? "1\n": "0\n");
+    if(exiteNumero == 1) {
+      printf("1\n");
+    }else{
+      printf("0\n");
+    }
 }
 
+void imprimirVetor(C_vector c_vector) {
+  int vetorVazio = 0;
 
-int main() {
-    char operacao;
-    int numero;
-    int posicao;
-    bool isVectorVazio = true;
-    C_vector c_vector;
-
-    for(int i = 0; i < 40; i++) {
-      Elemento e;
-      e.num = -66;
-      c_vector.vetor[i] = e;
+  for(int i = 0; i <= ULTIMA_POSICAO; i++) {
+    if(c_vector.vetor[i].num != NUMERO_INEXISTENTE) {
+      vetorVazio = 1;
+      printf("%d ", c_vector.vetor[i].num);
     }
-    
-    while(1) {
-        scanf("%c", &operacao);
-       
-        if(operacao == 'i') {
-            scanf("%i %i", &numero, &posicao);
+  }
 
-            Elemento elemento = {.num = numero};
-            c_vector = insert_at(elemento, posicao, c_vector);
-        }else if (operacao == 'r') {
-            scanf("%i", &posicao);
-            c_vector = remove_from(posicao, c_vector);
-        }else if (operacao == 'e') {
-            scanf("%i", &numero);
-
-            Elemento elemento = {.num = numero};
-            exist(elemento, c_vector);
-        }else if (operacao == 'x'){
-            for(int i = 0; i < 40; i++) {
-              if(c_vector.vetor[i].num >= 0) {
-                isVectorVazio = false;
-                printf("%d ", c_vector.vetor[i].num);
-              }
-            }
-
-            if(isVectorVazio) {
-              printf("vazio");
-            }
-
-            break;
-        }
-    }
-    
-    return 0;
+  if(vetorVazio == 0) {
+    printf("vazio");
+  }  
 }
