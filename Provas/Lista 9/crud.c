@@ -2,82 +2,111 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct person {
-    char name[21];
-    int age;
-    char gender;
-} Person;
+enum instrucoes {TAMANHO_MAXIMO = 20, IDADE_INEXISTENTE = -1};
 
-struct person peaple[20];
+typedef struct pessoa {
+    char nome[TAMANHO_MAXIMO + 1];
+    int idade;
+    char sexo;
+} Pessoa;
 
-void create(int personId, Person person) {
-    peaple[personId] = person;
-}
+struct pessoa pessoas[TAMANHO_MAXIMO];
 
-void delete(Person person) {
-    for (int i = 0; i < 20; i++){
-      bool isNameEquals = true;
-      
-      for(int j = 0; j < strlen(peaple[i].name); j++) {
-        if(peaple[i].name[j] != person.name[j]) {
-          isNameEquals = false;
-          break;
-        }  
-      }
+Pessoa lerDados(char * dados, Pessoa pessoa);
 
-      if (isNameEquals && peaple[i].age == person.age && peaple[i].gender == person.gender) {
-        peaple[i].age = -1;
-      }
-    }  
-}
+void create(int pessoaId, Pessoa pessoa, char *dados);
 
-void show() {
-    for (int i = 0; i < 20; i++){
-        if(peaple[i].age > 0) {
-            printf("%s,%i,%c\n", peaple[i].name, peaple[i].age, peaple[i].gender);
-        }
-    }
-}
+void delete(Pessoa pessoa);
+
+void imprimirPessoas();
+
+bool equals(char * a, char *b);
 
 int main() {
-    int personId = 0;
+  int pessoaId = 0;
 
-    while(1) {
-        char instruction[100];
-        char values[256];
-        Person person;
-        fgets(instruction, 256, stdin);
+  for (int i = 0; i < TAMANHO_MAXIMO; i++){
+      strcpy(pessoas[i].nome, "NULL");
+      pessoas[i].idade = IDADE_INEXISTENTE;
+      pessoas[i].sexo = 'N';
+  }
 
-        if(instruction[1] == 'n') {
-            char name[256];
-            int age;
-            char gender;
-            fgets(values, 256, stdin);
-            values[strcspn(values, "\n")] = 0;
-            sscanf(values, "%[^,],%d,%c", name, &age, &gender);
+  while(1) {
+      char comando[100];
+      char dados[256];
+      Pessoa pessoa;
 
-            Person person = {.age = age, .gender = gender};
-            strcpy(person.name, name);
+      fgets(comando, 256, stdin);
+      comando[strcspn(comando, "\n")] = 0;
 
-            create(personId, person);
-            personId++;
-        }else if(instruction[0] == 'd') {
-            char name[256];
-            int age;
-            char gender;
-            fgets(values, 256, stdin);
-            values[strcspn(values, "\n")] = 0;
-            sscanf(values, "%[^,],%d,%c", name, &age, &gender);
+      if(equals(comando, "inserir")) {
+          create(pessoaId, pessoa, dados);
+          pessoaId++;
+      }else if(equals(comando, "deletar")) {
+          pessoa = lerDados(dados, pessoa);
+          delete(pessoa);
+      }else if (equals(comando, "imprimir")){
+          imprimirPessoas();
+          break;
+      }
+  }
 
-            Person person = {.age = age, .gender = gender};
-            strcpy(person.name, name);
-            delete(person);
-        }else {
-            show();
-            break;
-        }
-    }
-
-    return 0;
+  return 0;
 }
 
+bool equals(char * a, char *b) {
+  int index = 0;
+ 
+  while(a[index] == b[index]){
+    if(a[index] == '\0' || b[index] == '\0' ){
+      break;
+    }
+
+    ++index;
+  }
+
+  if(a[index] == '\0' && b[index] == '\0' ){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+Pessoa lerDados(char *dados, Pessoa pessoa) {
+  char nomeDigitado[256];
+  int idadeDigitada;
+  char sexoDigitado;
+
+  fgets(dados, 256, stdin);
+  dados[strcspn(dados, "\n")] = 0;
+  sscanf(dados, "%[^,],%d,%c", nomeDigitado, &idadeDigitada, &sexoDigitado);
+
+  strcpy(pessoa.nome, nomeDigitado);
+  pessoa.idade = idadeDigitada;
+  pessoa.sexo = sexoDigitado;
+
+  return pessoa;
+}
+
+void create(int pessoaId, Pessoa pessoa, char *dados) {
+  pessoa = lerDados(dados, pessoa);
+  pessoas[pessoaId] = pessoa;
+}
+
+void delete(Pessoa pessoa) {
+  for (int i = 0; i < TAMANHO_MAXIMO; i++){
+    if (equals(pessoas[i].nome, pessoa.nome) && pessoas[i].idade == pessoa.idade && pessoas[i].sexo == pessoa.sexo) {
+      strcpy(pessoas[i].nome, "NULL");
+      pessoas[i].idade = IDADE_INEXISTENTE;
+      pessoas[i].sexo = 'N';
+    }
+  }  
+}
+
+void imprimirPessoas() {
+  for (int i = 0; i < TAMANHO_MAXIMO; i++){
+      if(pessoas[i].idade > 0) {
+          printf("%s,%i,%c\n", pessoas[i].nome, pessoas[i].idade, pessoas[i].sexo);
+      }
+  }
+}
