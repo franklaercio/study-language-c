@@ -43,7 +43,7 @@ bd_pessoas inserir_pessoa (bd_pessoas pessoas, pessoa p) {
     return pessoas;
 }
 
-bd_irmaos inserir_irmão(bd_pessoas pessoas, bd_irmaos irmaos, int id1, int id2) {
+bd_irmaos inserir_irmao(bd_pessoas pessoas, bd_irmaos irmaos, int id1, int id2) {
     bool isParentescoCadastrado = false;
     
     for(int i = 0; i < 50; i++) {
@@ -66,7 +66,7 @@ bd_irmaos inserir_irmão(bd_pessoas pessoas, bd_irmaos irmaos, int id1, int id2)
     return irmaos;
 } 
 
-void imprimir_irmãos(bd_irmaos irmaos, bd_pessoas pessoas, int id) {
+void imprimir_irmaos(bd_irmaos irmaos, bd_pessoas pessoas, int id) {
     bool isPossuiIrmaos = false;
     
     for(int i = 0; i < 50; i++) {
@@ -74,17 +74,17 @@ void imprimir_irmãos(bd_irmaos irmaos, bd_pessoas pessoas, int id) {
             isPossuiIrmaos = true;
             
             if(irmaos.irmaos[i].id1 != id) {
-                printf("%s é irmão de %s\n", pessoas.pessoas[irmaos.irmaos[i].id1].nome, pessoas.pessoas[id].nome);
+                printf("%s é irmão de %s\n", strtok(pessoas.pessoas[irmaos.irmaos[i].id1].nome, "\n"), strtok(pessoas.pessoas[id].nome, "\n"));
             }
             
             if(irmaos.irmaos[i].id2 != id) {
-                printf("%s é irmão de %s\n", pessoas.pessoas[irmaos.irmaos[i].id2].nome, pessoas.pessoas[id].nome);
+                printf("%s é irmão de %s\n", strtok(pessoas.pessoas[irmaos.irmaos[i].id2].nome, "\n"), strtok(pessoas.pessoas[id].nome, "\n"));
             }
         }
     }
     
     if(!isPossuiIrmaos) {
-        printf("%s não tem irmãos cadastrados\n", pessoas.pessoas[id].nome);
+        printf("%s não tem irmãos cadastrados\n", strtok(pessoas.pessoas[id].nome, "\n"));
     }
 }
 
@@ -122,10 +122,10 @@ int main() {
             pessoas = inserir_pessoa(pessoas, pessoa);
         }else if(operacao == PARENTESCO) {
             scanf("%i %i", &id1, &id2);
-            irmaos = inserir_irmão(pessoas, irmaos, id1, id2);
+            irmaos = inserir_irmao(pessoas, irmaos, id1, id2);
         }else if(operacao == SAIR) {
             scanf("%i", &id);
-            imprimir_irmãos(irmaos, pessoas, id);
+            imprimir_irmaos(irmaos, pessoas, id);
             break;
         }
     }
